@@ -1,25 +1,36 @@
-// *****************************************************************************
-// Server.js - This file is the initial starting point for the Node/Express server.
-//
-// ******************************************************************************
-// *** Dependencies
-// =============================================================
 var express = require("express");
+var logger = require("morgan");
+var mongoose = require("mongoose");
 
-// Sets up the Express App
-// =============================================================
-var app = express();
-var PORT = process.env.PORT || 8080;
+// Our scraping tools
+// Axios is a promised-based http library, similar to jQuery's Ajax method
+// It works on the client and on the server
+var axios = require("axios");
+var cheerio = require("cheerio");
 
-// Requiring our models for syncing
+// Require all models
 var db = require("./models");
 
-// Sets up the Express app to handle data parsing
+var PORT = 3000;
+
+// Initialize Express
+var app = express();
+
+// Configure middleware
+
+// Use morgan logger for logging requests
+app.use(logger("dev"));
+// Parse request body as JSON
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
-// Static directory
+// Make public a static folder
 app.use(express.static("public"));
+
+// Connect to the Mongo DB
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+
+mongoose.connect(MONGODB_URI);
+
 
 // Routes
 // =============================================================
