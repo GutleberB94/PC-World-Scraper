@@ -1,5 +1,5 @@
 var express = require("express");
-
+var mongoose = require("mongoose");
 var axios = require("axios");
 var cheerio = require("cheerio");
 
@@ -28,33 +28,46 @@ router.get("/scrape", (req, res) => {
             var result = {};
 
             result.headline = $(this)
-            .children('.crawl-headline')
-            .text();
+                .children('.crawl-headline')
+                .text()
+                .replace(/\s\s+/g, '');
 
             result.summary = $(this)
-            .children('.crawl-summary')
-            .text();
+                .children('.crawl-summary')
+                .text()
+                .replace(/\s\s+/g, '');
 
             result.url = $(this)
-            .children('.crawl-headline')
-            .attr("href")
+                .children('.crawl-headline')
+                .attr("href")
 
             console.log("URL " + result.url)
             console.log("Headline " + result.headline)
             console.log("summary " + result.summary)
 
             db.Article.create(result)
-            .then((dbArticle) => {
-                console.log(dbArticle);
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+                .then((dbArticle) => {
+                    console.log(dbArticle);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
 
         });
         // Send a message to the client
         res.send("Scrape Complete");
     });
+});
+
+// get all articles route
+axios.get("/api/articles", (req, res) => {
+    db.Article.find({})
+        .then((dbArticle) => {
+            res.json(dbArticle);
+        })
+        .catch((err) => {
+            res.json(err);
+        });
 });
 
 
