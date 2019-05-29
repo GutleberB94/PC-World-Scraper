@@ -13,8 +13,9 @@ router.get("/", (req, res) => {
     res.render("index")
 })
 
-// A GET route for scraping the echoJS website
+// A GET route for scraping the PC-World website
 router.get("/scrape", (req, res) => {
+
 
     axios.get("https://www.pcworld.com/news/").then(response => {
 
@@ -22,11 +23,25 @@ router.get("/scrape", (req, res) => {
 
         let articles = $(".landing-listing")
 
-        console.log(articles.children.html())
-
-        $("excerpts p").each(function(i, element) {
+        $(".excerpt-text").each(function (i, element) {
             // Save an empty result object
             var result = {};
+
+            result.headline = $(this)
+            .children('.crawl-headline')
+            .text();
+
+            result.summary = $(this)
+            .children('.crawl-summary')
+            .text();
+
+            result.url = $(this)
+            .children('.crawl-headline')
+            .attr("href")
+
+            console.log("URL " + result.url)
+            console.log("Headline " + result.headline)
+            console.log("summary " + result.summary)
 
         });
         // Send a message to the client
