@@ -71,5 +71,20 @@ router.get("/api/articles", (req, res) => {
 });
 
 
+// route to get specific artilce with comments
+router.get("/api/articles/:id", (req, res) => {
+    db.Article.findOne({_id: req.params.id})
+    .populate("comment")
+    .then((dbArticle) => {
+        res.json(dbArticle);
+    })
+    .catch((err) => {
+        res.json(err);
+    });
+});
+
+// route to update an articles comment
+
+
 // Export routes for server.js to use
 module.exports = router;
