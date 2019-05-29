@@ -14,11 +14,11 @@ router.get("/", (req, res) => {
 })
 
 // A GET route for scraping the echoJS website
-router.get("/scrape", function (req, res) {
+router.get("/scrape", (req, res) => {
 
     axios.get("https://www.pcworld.com/news/").then(response => {
 
-        var $ = cheerio.load(response.data);
+        let $ = cheerio.load(response.data);
 
         let articles = $(".landing-listing")
 
