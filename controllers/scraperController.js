@@ -73,17 +73,29 @@ router.get("/api/articles", (req, res) => {
 
 // route to get specific artilce with comments
 router.get("/api/articles/:id", (req, res) => {
-    db.Article.findOne({_id: req.params.id})
-    .populate("comment")
-    .then((dbArticle) => {
-        res.json(dbArticle);
-    })
-    .catch((err) => {
-        res.json(err);
-    });
+    db.Article.findOne({ _id: req.params.id })
+        .populate("comment")
+        .then((dbArticle) => {
+            res.json(dbArticle);
+        })
+        .catch((err) => {
+            res.json(err);
+        });
 });
 
 // route to update an articles comment
+router.post("/api/articles/:id", (req, res) => {
+    db.Comment.create(req.body)
+        .then((dbComment) => {
+            return db.Article.findOneAndUpdate({ _id: req.params.id }, { comment: dbComment._id }, { new: true });
+        })
+        .then((dbArticle) => {
+            res.json(dbArticle);
+        })
+        .catch((err) => {
+            res.json(err);
+        });
+})
 
 
 // Export routes for server.js to use
