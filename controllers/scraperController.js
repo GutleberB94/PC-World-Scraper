@@ -43,6 +43,14 @@ router.get("/scrape", (req, res) => {
             console.log("Headline " + result.headline)
             console.log("summary " + result.summary)
 
+            db.Article.create(result)
+            .then((dbArticle) => {
+                console.log(dbArticle);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+
         });
         // Send a message to the client
         res.send("Scrape Complete");
