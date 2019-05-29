@@ -6,7 +6,7 @@ var cheerio = require("cheerio");
 var router = express.Router();
 
 // Require all models
-//var db = require("./models");
+var db = require("./models");
 
 router.get("/", (req, res) => {
 
