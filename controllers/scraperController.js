@@ -60,7 +60,7 @@ router.get("/scrape", (req, res) => {
 });
 
 // get all articles route
-axios.get("/api/articles", (req, res) => {
+router.get("/api/articles", (req, res) => {
     db.Article.find({})
         .then((dbArticle) => {
             res.json(dbArticle);
