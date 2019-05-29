@@ -38,7 +38,7 @@ router.get("/scrape", (req, res) => {
                 .replace(/\s\s+/g, '');
 
             result.url = $(this)
-                .children('.crawl-headline')
+                .children('.crawl-headline')             // does not grab the url for some reason
                 .attr("href")
 
             console.log("URL " + result.url)
