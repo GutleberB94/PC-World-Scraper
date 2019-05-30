@@ -15,7 +15,7 @@ let ArticleSchema = new Schema({
         required: true
     },
 
-    link: {
+    url: {
         type: String,
         required: false
     },
